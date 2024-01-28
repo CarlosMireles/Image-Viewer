@@ -1,6 +1,6 @@
-package software.ulpgc.imageviewer.swing;
+package software.ulpgc.imageViewer.Swing;
 
-import software.ulpgc.imageviewer.ImageDisplay;
+import software.ulpgc.imageViewer.model.ImageDisplay;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,7 +10,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame()  {
         this.setTitle("Image Viewer");
-        this.setSize(800,600);
+        this.setSize(1080,608);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.add(createImageDisplay());

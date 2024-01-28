@@ -1,7 +1,7 @@
-package software.ulpgc.imageviewer;
+package software.ulpgc.imageViewer.model;
 
 public interface ImageDisplay {
-    void paint(String id, int offset);
+    void paint(String id, int offset, byte[] bytes);
     int getWidth();
     void clear();
     void on(Shift shift);

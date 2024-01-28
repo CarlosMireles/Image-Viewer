@@ -1,6 +1,6 @@
-package software.ulpgc.imageviewer;
+package software.ulpgc.imageViewer.model;
 
-import software.ulpgc.imageviewer.ImageDisplay.*;
+import software.ulpgc.imageViewer.model.ImageDisplay.*;
 
 public class ImagePresenter {
     private final ImageDisplay display;
@@ -14,11 +14,11 @@ public class ImagePresenter {
 
     private void shift(int offset) {
         display.clear();
-        display.paint(image.id(), offset);
+        display.paint(image.id(), offset, image.bytes());
         if (offset > 0)
-            display.paint(image.prev().id(), offset - display.getWidth());
+            display.paint(image.prev().id(), offset - display.getWidth(), image.prev().bytes());
         else
-            display.paint(image.next().id(), display.getWidth() + offset);
+            display.paint(image.next().id(), display.getWidth() + offset, image.next().bytes());
 
     }
 
@@ -35,6 +35,6 @@ public class ImagePresenter {
 
     private void repaint() {
         this.display.clear();
-        this.display.paint(image.id(), 0);
+        this.display.paint(image.id(), 0, image.bytes());
     }
 }

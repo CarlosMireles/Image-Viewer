@@ -1,6 +1,6 @@
-package software.ulpgc.imageviewer.swing;
+package software.ulpgc.imageViewer.Swing;
 
-import software.ulpgc.imageviewer.ImageDisplay;
+import software.ulpgc.imageViewer.model.ImageDisplay;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -8,13 +8,11 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-import java.io.File;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class SwingImageDisplay extends JPanel implements ImageDisplay {
     private Shift shift = Shift.Null;
@@ -63,8 +61,8 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay {
     }
 
     @Override
-    public void paint(String id, int offset) {
-        paints.add(new Paint(id, offset));
+    public void paint(String id, int offset, byte[] bytes) {
+        paints.add(new Paint(id, offset, bytes));
         repaint();
     }
 
@@ -73,16 +71,10 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay {
         paints.clear();
     }
 
-    private static final Map<String,Color> colors = Map.of(
-            "red", Color.RED,
-            "green", Color.GREEN,
-            "blue", Color.BLUE
-    );
     @Override
     public void paint(Graphics g) {
         for (Paint paint : paints) {
-            g.setColor(colors.get(paint.id));
-            g.fillRect(paint.offset, 0, 800, 600);
+            g.drawImage(loadImageFromBytes(paint.bytes()), paint.offset(), 0, null);
         }
     }
 
@@ -96,6 +88,15 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay {
         this.released = released != null ? released : Released.Null;
     }
 
-    private record Paint(String id, int offset) {
+    private BufferedImage loadImageFromBytes(byte[] bytes){
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(bytes);
+        try {
+            return ImageIO.read(inputStream);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private record Paint(String id, int offset, byte[] bytes) {
     }
 }

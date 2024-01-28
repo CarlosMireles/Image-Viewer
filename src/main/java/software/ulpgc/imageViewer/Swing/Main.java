@@ -1,18 +1,20 @@
-package software.ulpgc.imageviewer.swing;
+package software.ulpgc.imageViewer.Swing;
 
-import software.ulpgc.imageviewer.Image;
-import software.ulpgc.imageviewer.ImagePresenter;
-import software.ulpgc.imageviewer.mocks.MockImageLoader;
+import software.ulpgc.imageViewer.model.Image;
+import software.ulpgc.imageViewer.model.ImagePresenter;
+import software.ulpgc.imageViewer.ImageIO.ImageIOImageLoader;
+
+import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         MainFrame frame = new MainFrame();
         ImagePresenter presenter = new ImagePresenter(frame.getImageDisplay());
         presenter.show(image());
         frame.setVisible(true);
     }
 
-    private static Image image() {
-        return new MockImageLoader().load();
+    private static Image image() throws IOException {
+        return new ImageIOImageLoader("src/imagenes").load();
     }
 }
